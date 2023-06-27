@@ -1,5 +1,14 @@
-function sum(a: number, b: number): number {
-    return a + b;
+import prisma from './config/database';
+
+
+async function find() {
+    const user = await prisma.user.findMany();
+    return user
 }
 
-console.log(sum(1, 9));
+(async () => {
+    const users = await find();
+    console.log(users);
+})();
+
+
