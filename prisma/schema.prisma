@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  street    String
+  number    Int
+  city      String
+  state     String
+  country   String
+  zipCode   String  @db.VarChar(8)
+  isDefault Boolean @default(false)
+  User      User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  imgUrl    String
+  admin     Boolean   @default(false)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  Address   Address[]
+}
